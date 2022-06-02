@@ -1,0 +1,24 @@
+{
+  "example": [
+    {
+      "type": "Offre Promotionnelle",
+      "date": "25 Avr 22:34",
+      "description": "Vite ! La bouteille Fort Lointin est actuellement en réduction de 15% !"
+    },
+    {
+      "type": "Nouveauté",
+      "date": "25 Avr 22:34",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod..."
+    },
+    {
+      "type": "Selection de la semaine",
+      "date": "25 Avr 22:34",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod..."
+    },
+    {
+      "type": "Nouveauté",
+      "date": "25 Avr 22:34",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod..."
+    }
+  ]
+}

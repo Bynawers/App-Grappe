@@ -1,0 +1,16 @@
+{
+  "using": [
+    {
+      "name": "Activer les notifications"
+    },
+    {
+      "name": "Notifications offre promotionnelle"
+    },
+    {
+      "name": "Notifications “nouveauté"
+    },
+    {
+      "name": "Notifications sélection de la semaine"
+    }
+  ]
+}
