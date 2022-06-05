@@ -1,0 +1,22 @@
+{
+  "example": [
+    {
+      "name": "Côtes Bordeaux",
+      "date": "2012",
+      "type": "rouge",
+      "rate": "4,3"
+    },
+    {
+      "name": "Lacanaud",
+      "date": "2001",
+      "type": "rouge",
+      "rate": "4,4"
+    },
+    {
+      "name": "Saint Emilion",
+      "date": "1996",
+      "type": "rouge",
+      "rate": "4,8"
+    }
+  ]
+}
