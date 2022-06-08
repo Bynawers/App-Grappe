@@ -1,9 +1,11 @@
-import React, { useContext, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
+import React, { useContext, useRef, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Modal, TouchableWithoutFeedback, Button } from 'react-native';
 import { Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 import themeContext  from '../../../config/themeContext';
 import { FlatList } from 'react-native-gesture-handler';
+
+import Wine from '../secondary/Wine.js';
 
 export default function Home({navigation}) {
 
@@ -66,6 +68,10 @@ const HomeComponent = (props) => {
 
   const dataMesVins = require('../../data/example/mesVins.json');
 
+  const [dataSelect, setDataSelect] = useState({name: 'none', year: -1, rate: -1, type: 'none'});
+
+  const [visible, setVisible] = useState(false);
+
   return(
     <View style={{ flex: 1 }}>
       <HomeTitle theme={props.theme} name='Mes vins'/>
@@ -73,7 +79,7 @@ const HomeComponent = (props) => {
       <View style={{ height: 140, width: '100%', marginBottom: 20 }}>
         <FlatList
           data={dataMesVins.example}
-          renderItem={({item, index}) => { return(<DataRender name={item.name} date={item.date} rate={item.rate} type={item.type}/>); }}
+          renderItem={({item, index}) => { return(<DataRender name={item.name} date={item.date} rate={item.rate} type={item.type} navigation={props.navigation} setVisible={setVisible} setDataSelect={setDataSelect}/>); }}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
         />
@@ -84,7 +90,7 @@ const HomeComponent = (props) => {
       <View style={{ height: 140, width: '100%', marginBottom: 30 }}>
         <FlatList
           data={dataMesVins.example}
-          renderItem={({item, index}) => { return(<DataRender name={item.name} date={item.date} rate={item.rate} type={item.type}/>); }}
+          renderItem={({item, index}) => { return(<DataRender name={item.name} date={item.date} rate={item.rate} type={item.type} navigation={props.navigation} setVisible={setVisible} setDataSelect={setDataSelect}/>); }}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
         />
@@ -95,7 +101,8 @@ const HomeComponent = (props) => {
         <BottomComponent name='Evaluation' navigation={props.navigation}/>
       </View>
 
-      <TouchableOpacity style={{ height: 50, marginRight: '25%', marginLeft: '25%', flexDirection: 'row', backgroundColor: props.theme.primary, borderRadius: 25}}>
+      <TouchableOpacity style={{ height: 50, marginRight: '25%', marginLeft: '25%', flexDirection: 'row', backgroundColor: props.theme.primary, borderRadius: 25}}
+      onPress={ () => {}}>
         <View style={{ flex: .4, alignItems: 'flex-end', justifyContent: 'center' }}>
           <Ionicons name='options-outline' color='white' size={30}/>
         </View>
@@ -103,6 +110,7 @@ const HomeComponent = (props) => {
           <Text style={{ color: 'white' }}>Personalisation</Text>
         </View>
       </TouchableOpacity>
+      <Wine setVisible={setVisible} visible={visible} theme={props.theme} dataSelect={dataSelect}/>
 
     </View>
   );
@@ -125,7 +133,8 @@ const HomeTitle = (props) => {
 const DataRender = (props) => {
 
   return(
-    <TouchableOpacity style={styles.componentWine}>
+    <TouchableOpacity style={styles.componentWine}
+    onPress={ () => {props.setVisible(true); props.setDataSelect({name: props.name, date: props.date, rate: props.rate, type: props.type}) }}>
       <View style={styles.textRender}>
         <Text numberOfLines={1} style={{ fontWeight: 'bold', flexWrap: 'wrap', flex: 1 }}>{props.name}</Text>
       </View>
@@ -156,7 +165,7 @@ const DataRender = (props) => {
 const BottomComponent = (props) => {
   return(
     <TouchableOpacity style={ styles.bottomComponent }
-    onPress={ () => props.navigation.navigate('EvaluationStack')}>
+    onPress={ () => props.navigation.navigate(props.name === "Evaluation" ? 'EvaluationStack' : 'SocialStack')}>
       <View style={{ flex: .5, alignItems: 'center' }}>
         {props.name === 'Actualitées' && <MaterialIcons name='local-fire-department' color='#ff9f00' size={40}/>}
         {props.name === 'Evaluation' &&  <Ionicons name='star' color='#EFCE4A' size={40}/>}

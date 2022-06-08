@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
+import React, { useContext, useRef, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, TextInput } from 'react-native';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 import themeContext  from '../../../config/themeContext';
@@ -32,20 +32,13 @@ export default function Home({navigation}) {
             <Text style={{ color: theme.textOnDark, fontSize: 25 }}>Search</Text>
           </View>
           <View style={{ flex: 1, flexDirection: 'row', right: '10%'}}>
-            <TouchableOpacity style={{marginRight: '30%'}}
-            onPress={() => { navigation.push('NotificationStack') }}>
-              <Ionicons name='notifications' size={30} color={theme.textOnDark}/>
-            </TouchableOpacity>
-            <TouchableOpacity
-            onPress={() => { navigation.push('RewardStack') }}>
-              <FontAwesome5 name='coins' size={30} color={'#f1cb66'}/>
-            </TouchableOpacity>
+            <Ionicons name='notifications' size={30} color={theme.primary}/>
           </View>
         </Animated.View>
       </Animated.View>
       
       <View style={{ backgroundColor: theme.primary }}>
-      <Animated.ScrollView style={{  height: '100%', width: '100%', backgroundColor: theme.background, borderRadius: 30}}
+      <Animated.ScrollView style={{  height: '100%', width: '100%', borderRadius: 30, backgroundColor: theme.background }}
         contentContainerStyle={{ paddingTop: 0, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -53,12 +46,38 @@ export default function Home({navigation}) {
           [{nativeEvent: {contentOffset: {y: scrollPosition}}}],
           {useNativeDriver: false},
         )}>
-        <View style={styles.mainContainer}>
-          <Text>Component</Text>
-        </View>
+          <Component theme={theme}/>
+
       </Animated.ScrollView>
       </View>
     </>
+  );
+}
+
+const Component = (props) => {
+
+  const [text, onChangeText] = React.useState("Rechercher");
+
+  return(
+    <View style={{ flex: 1, marginTop: 40 }}>
+      <View style={styles.topContainer}>
+        <View style={styles.search}>
+          <TextInput style={styles.input} onChangeText={onChangeText} value={text}/>
+        </View>
+        <TouchableOpacity style={[ styles.filtres, { backgroundColor: props.theme.primary }]}>
+          <Text style={{ fontSize: 15, color: props.theme.textOnDark }}>Filtres</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+const FiltreComponent = (props) => {
+
+  return(
+    <View>
+      
+    </View>
   );
 }
 
@@ -84,5 +103,41 @@ const styles = StyleSheet.create({
     width: 30, 
     height: 30, 
     tintColor: 'white', 
+  },
+  topContainer: {
+    width: '100%', 
+    height: 40, 
+    justifyContent: 'center', 
+    alignItems: 'flex-start', 
+    flexDirection: 'row'
+  },
+  search: {
+    backgroundColor: 'white', 
+    flex: 2, 
+    height: '100%', 
+    borderRadius: 30, 
+    justifyContent: 'center', 
+    alignItems: 'flex-start', 
+    paddingLeft: '5%', 
+    marginLeft: '5%', 
+    marginRight: '5%',
+    shadowColor: '#171717',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  filtres: {
+    flex: 1, 
+    height: '100%', 
+    borderRadius: 30,
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    marginRight: '5%'
+  },
+  input: {
+    fontSize: 15,
+    color: '#858585',
+    flex: 1,
+    width: '100%'
   }
 });

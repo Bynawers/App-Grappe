@@ -38,19 +38,19 @@ export default function Evaluation({navigation}) {
         </Animated.View>
 
         <Animated.View style={[styles.searchEvaluation, { opacity: opacity }]}>
-          <View style={{ backgroundColor: 'white', width: '80%', height: 45, borderRadius: 30, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: '5%'}}>
+          <View style={styles.search}>
             <TextInput style={styles.input} onChangeText={onChangeText} value={text}/>
           </View>
         </Animated.View>
         <Animated.View style={{ flex: 1, alignItems: 'center', width: '100%', opacity: opacity }}>
-          <TouchableOpacity style={{ height: 50, width: 50, backgroundColor: '#8e538e', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
+          <TouchableOpacity style={styles.addIcon}>
             <Ionicons name='add' color='white' size={40}/>
           </TouchableOpacity>
         </Animated.View>
       </Animated.View>
       
       <View style={{ backgroundColor: theme.primary }}>
-      <Animated.ScrollView style={{  height: '100%', width: '100%', backgroundColor: theme.background, borderRadius: 30}}
+      <Animated.ScrollView style={{  height: '100%', width: '100%', borderRadius: 30, backgroundColor: theme.background }}
         contentContainerStyle={{ paddingTop: 0, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -106,5 +106,22 @@ const styles = StyleSheet.create({
     color: '#858585',
     flex: 1,
     width: '100%'
+  },
+  search: {
+    backgroundColor: 'white', 
+    width: '80%', 
+    height: 45, 
+    borderRadius: 30, 
+    justifyContent: 'center', 
+    alignItems: 'flex-start', 
+    paddingLeft: '5%'
+  },
+  addIcon: {
+    height: 50,
+    width: 50, 
+    backgroundColor: '#8e538e', 
+    borderRadius: 15, 
+    alignItems: 'center', 
+    justifyContent: 'center'
   }
 });
