@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, TextInput } from 'react-native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import React, { useContext, useRef, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, TextInput, FlatList } from 'react-native';
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
 import themeContext  from '../../../config/themeContext';
 
@@ -12,7 +12,7 @@ export default function Home({navigation}) {
   const minHeaderHeight = 0
   const maxHeaderHeight = 100
   const headerHeight = scrollPosition.interpolate({
-    inputRange: [0, 100],
+    inputRange: [0, 200],
     outputRange: [maxHeaderHeight, minHeaderHeight],
     extrapolate: 'clamp',
   });
@@ -42,11 +42,12 @@ export default function Home({navigation}) {
         contentContainerStyle={{ paddingTop: 0, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        nestedScrollEnabled={true}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollPosition}}}],
           {useNativeDriver: false},
         )}>
-          <Component theme={theme}/>
+          <SearchMainComponent theme={theme}/>
 
       </Animated.ScrollView>
       </View>
@@ -54,30 +55,76 @@ export default function Home({navigation}) {
   );
 }
 
-const Component = (props) => {
+const SearchMainComponent = (props) => {
+
+  const data = require('../../data/api/wine.json');
 
   const [text, onChangeText] = React.useState("Rechercher");
 
   return(
     <View style={{ flex: 1, marginTop: 40 }}>
+
       <View style={styles.topContainer}>
         <View style={styles.search}>
-          <TextInput style={styles.input} onChangeText={onChangeText} value={text}/>
+          <TextInput style={styles.input} onChangeText={onChangeText} value={text}
+          onFocus={() => { console.log('focus') }}
+          onBlur={() => { console.log('leave focus') }}/>
         </View>
         <TouchableOpacity style={[ styles.filtres, { backgroundColor: props.theme.primary }]}>
           <Text style={{ fontSize: 15, color: props.theme.textOnDark }}>Filtres</Text>
         </TouchableOpacity>
       </View>
+
+      {data.wine.map((item, index) => {
+        return(
+          <React.Fragment key={index}>
+            <WineComponent theme={props.theme} have={false} wish={true}/>
+          </React.Fragment>
+        );
+      })}
+      
     </View>
   );
 }
 
-const FiltreComponent = (props) => {
+const WineComponent = (props) => {
+
+  const [have, setHave] = useState(props.have);
+  const [wish, setWish] = useState(props.wish);
 
   return(
-    <View>
-      
-    </View>
+    <>
+      <View style={[ styles.line, { backgroundColor: props.theme.separation }]}/>
+      <View style={{ backgroundColor: 'white', flex: 1, height: 200, flexDirection: 'row'}}>
+
+        <View style={{ flex: 0.3, justifyContent: 'center' }}>
+          <Image style={styles.wineImage} source={require('../../../assets/redWine.png')}/>
+        </View>
+
+        <View style={{ flex: 0.7, marginTop: 10}}>
+
+        <View style={{ flex: 0.1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ color: props.theme.primary, fontWeight: 'bold', fontSize: 20 }}>Bordeaux Saint Emilion</Text>
+          </View>
+
+          <View style={{ flex: 0.9, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+
+            <TouchableOpacity style={{ marginRight: 20 }}
+            onPress={() => { setHave(!have) }}>
+              <FontAwesome name={have ? 'heart' : 'heart-o'} color={have ? 'red' : props.theme.textOnLight} size={40}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+            onPress={() => { setWish(!wish) }}>
+              <FontAwesome name={wish ? 'bookmark' : 'bookmark-o'} color={wish ? props.theme.primary : props.theme.textOnLight} size={40}/>
+            </TouchableOpacity>
+
+          </View>
+
+        </View>
+
+      </View>
+    </>
   );
 }
 
@@ -109,7 +156,8 @@ const styles = StyleSheet.create({
     height: 40, 
     justifyContent: 'center', 
     alignItems: 'flex-start', 
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 50
   },
   search: {
     backgroundColor: 'white', 
@@ -139,5 +187,15 @@ const styles = StyleSheet.create({
     color: '#858585',
     flex: 1,
     width: '100%'
+  },
+  line: {
+    width: '100%',
+    height: 1,
+  },
+  wineImage: {
+    position: 'relative',
+    resizeMode: "contain",
+    width: '100%',
+    height: '90%'
   }
 });

@@ -11,7 +11,8 @@ import Reward from '../views/secondary/Reward.js';
 import Notification from '../views/secondary/Notification.js';
 import NotificationAdvance from "../views/secondary/NotificationAdvance.js";
 import Evaluation from "../views/secondary/Evaluation.js";
-import Social from "../views/secondary/Social.js"
+import Social from "../views/secondary/Social.js";
+import SeeMore from "../views/secondary/SeeMore.js";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="NotificationAdvanceStack" component={NotificationAdvance}/>
       <Stack.Screen name="EvaluationStack" component={Evaluation}/>
       <Stack.Screen name="SocialStack" component={Social}/>
+      <Stack.Screen name="SeeMoreStack" component={SeeMore}/>
     </Stack.Navigator>
   );
 }

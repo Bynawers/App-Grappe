@@ -2,49 +2,21 @@ import React, { useContext, useRef } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import Header from '../../shared/Header.js';
+import ComingSoon from '../third/ComingSoon.js';
+
 import themeContext  from '../../../config/themeContext';
 
-export default function Reward(props) {
+export default function Reward({navigation}) {
 
   const theme = useContext(themeContext);
 
-  const scrollPosition = useRef(new Animated.Value(0)).current;
-  const minHeaderHeight = 0
-  const maxHeaderHeight = 100
-  const headerHeight = scrollPosition.interpolate({
-    inputRange: [0, 150],
-    outputRange: [maxHeaderHeight, minHeaderHeight],
-    extrapolate: 'clamp',
-  });
-
   return (
     <>
-      <Animated.View style={[ styles.headerContainer, { backgroundColor: theme.primary, height: headerHeight}]}>
-        <View style={{ flex: 1, alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 10 }}>
-        <View style={{ flex: 1, left: 30 }}>
-          <MaterialIcons name='arrow-back-ios' size={30} color={theme.textOnDark}/>
-        </View>
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{color: theme.textOnDark, fontSize: 25}}>Reward</Text>
-        </View>
-        <View style={{ flex: 1 }}/>
-        </View>
-      </Animated.View>
-      
-      <View style={{ backgroundColor: theme.primary }}>
-      <Animated.ScrollView style={{  height: '100%', width: '100%', backgroundColor: theme.background}}
-        contentContainerStyle={{ paddingTop: 100, paddingBottom: 100 }}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollPosition}}}],
-          {useNativeDriver: false},
-        )}>
+      <Header name='Reward' navigation={navigation}/>
         <View style={styles.mainContainer}>
-          <Text>Reward</Text>
+          <ComingSoon name='reward'/>
         </View>
-      </Animated.ScrollView>
-      </View>
     </>
   );
 }

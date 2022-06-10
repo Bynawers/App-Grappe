@@ -15,7 +15,7 @@ export default function NotificationAdvance({navigation}) {
 
   return (
     <>
-      <Header name='Notifications avancées' navigation={navigation} type='NotificationAdvance'/>
+      <Header name='Notifications avancées' navigation={navigation}/>
       <View style={[styles.line, { backgroundColor: theme.separation }]}/>
       
       <ScrollView style={{  height: '100%', width: '100%', backgroundColor: theme.surface}}
