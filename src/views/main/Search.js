@@ -1,8 +1,9 @@
-import React, { useContext, useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, TextInput, FlatList } from 'react-native';
-import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import React, { useContext, useRef, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, TextInput } from 'react-native';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 import themeContext  from '../../../config/themeContext';
+import Filtres from "../secondary/Filtres.js";
 
 export default function Home({navigation}) {
 
@@ -59,6 +60,8 @@ const SearchMainComponent = (props) => {
 
   const data = require('../../data/api/wine.json');
 
+  const [visible, setVisible] = useState(false);
+
   const [text, onChangeText] = React.useState("Rechercher");
 
   return(
@@ -70,7 +73,8 @@ const SearchMainComponent = (props) => {
           onFocus={() => { console.log('focus') }}
           onBlur={() => { console.log('leave focus') }}/>
         </View>
-        <TouchableOpacity style={[ styles.filtres, { backgroundColor: props.theme.primary }]}>
+        <TouchableOpacity style={[ styles.filtres, { backgroundColor: props.theme.primary }]}
+        onPress={() => { setVisible(true); }}>
           <Text style={{ fontSize: 15, color: props.theme.textOnDark }}>Filtres</Text>
         </TouchableOpacity>
       </View>
@@ -78,11 +82,12 @@ const SearchMainComponent = (props) => {
       {data.wine.map((item, index) => {
         return(
           <React.Fragment key={index}>
-            <WineComponent theme={props.theme} have={false} wish={true}/>
+            <WineComponent name={item.name} theme={props.theme} have={false} wish={true}/>
           </React.Fragment>
         );
       })}
       
+      <Filtres visible={visible} setVisible={setVisible} theme={props.theme}/>
     </View>
   );
 }
@@ -104,7 +109,7 @@ const WineComponent = (props) => {
         <View style={{ flex: 0.7, marginTop: 10}}>
 
         <View style={{ flex: 0.1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: props.theme.primary, fontWeight: 'bold', fontSize: 20 }}>Bordeaux Saint Emilion</Text>
+            <Text style={{ color: props.theme.primary, fontWeight: 'bold', fontSize: 20 }}>{props.name}</Text>
           </View>
 
           <View style={{ flex: 0.9, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
